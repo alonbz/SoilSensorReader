@@ -1,8 +1,9 @@
 <resources>
+    <!-- White text, for darker card backgrounds -->
     <style name="CardTitleWhite">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:alpha">0.9</item>
     </style>
@@ -14,5 +15,23 @@
         <item name="android:textSize">24sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <!-- Dark text, for lighter/brighter card backgrounds (better contrast) -->
+    <style name="CardTitleDark">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#2B2B2B</item>
+        <item name="android:alpha">0.75</item>
+    </style>
+
+    <style name="CardValueDark">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#2B2B2B</item>
     </style>
 </resources>
