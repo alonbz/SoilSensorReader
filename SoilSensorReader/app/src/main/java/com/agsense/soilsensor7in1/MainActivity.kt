@@ -23,6 +23,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvPh: TextView
     private lateinit var tvLastUpdate: TextView
 
+    private lateinit var tvVersion: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -37,6 +39,8 @@ class MainActivity : AppCompatActivity() {
         tvK = findViewById(R.id.tvK)
         tvPh = findViewById(R.id.tvPh)
         tvLastUpdate = findViewById(R.id.tvLastUpdate)
+        tvVersion = findViewById(R.id.tvVersion)
+        tvVersion.text = "גרסה: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
 
         usbHelper = UsbSerialHelper(
             context = this,

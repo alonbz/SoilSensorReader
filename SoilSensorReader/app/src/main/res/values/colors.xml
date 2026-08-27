@@ -1,10 +1,14 @@
 <resources>
-    <color name="cardTemperature">#FF9F5A</color>
-    <color name="cardMoisture">#4FC3F7</color>
-    <color name="cardEc">#9575CD</color>
-    <color name="cardSalinity">#4DD0E1</color>
-    <color name="cardNitrogen">#FF8A80</color>
-    <color name="cardPhosphorus">#4DB6AC</color>
-    <color name="cardPotassium">#64B5F6</color>
-    <color name="cardPh">#81C784</color>
+    <!-- Sampled directly from the manufacturer app's reference screenshot -->
+    <color name="cardTemperature">#F5A328</color>
+    <color name="cardMoisture">#50A0F0</color>
+    <color name="cardEc">#AA8CE1</color>
+    <color name="cardPh">#FDC618</color>
+    <color name="cardNitrogen">#ECA282</color>
+    <color name="cardPhosphorus">#29BED2</color>
+    <color name="cardPotassium">#5B7CE1</color>
+    <!-- Salinity has no reference card (8th parameter we added) - chosen to be visually distinct -->
+    <color name="cardSalinity">#78909C</color>
+
+    <color name="brandGreen">#2E7D32</color>
 </resources>
