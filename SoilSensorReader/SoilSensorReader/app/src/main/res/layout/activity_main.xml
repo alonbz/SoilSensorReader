@@ -68,7 +68,16 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <TextView style="@style/CardTitleDark" android:text="🌡️ Temperature" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView style="@style/CardIconDark" android:text="🌡️" />
+
+                        <TextView style="@style/CardTitleDark" android:layout_marginStart="6dp" android:text="Temperature" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tvTemperature"
@@ -92,7 +101,16 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <TextView style="@style/CardTitleWhite" android:text="💧 Moisture" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView style="@style/CardIconWhite" android:text="💧" />
+
+                        <TextView style="@style/CardTitleWhite" android:layout_marginStart="6dp" android:text="Moisture" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tvMoisture"
@@ -124,7 +142,16 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <TextView style="@style/CardTitleDark" android:text="🧪 pH" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView style="@style/CardIconDark" android:text="🧪" />
+
+                        <TextView style="@style/CardTitleDark" android:layout_marginStart="6dp" android:text="pH" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tvPh"
@@ -148,7 +175,16 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <TextView style="@style/CardTitleDark" android:text="⚡ Conductivity (EC)" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView style="@style/CardIconDark" android:text="⚡" />
+
+                        <TextView style="@style/CardTitleDark" android:layout_marginStart="6dp" android:text="Conductivity (EC)" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tvEc"
@@ -180,7 +216,16 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <TextView style="@style/CardTitleDark" android:text="🌱 Nitrogen (N)" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView style="@style/CardIconDark" android:text="🌱" />
+
+                        <TextView style="@style/CardTitleDark" android:layout_marginStart="6dp" android:text="Nitrogen (N)" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tvN"
@@ -204,7 +249,16 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <TextView style="@style/CardTitleWhite" android:text="🌱 Phosphorus (P)" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView style="@style/CardIconWhite" android:text="🌱" />
+
+                        <TextView style="@style/CardTitleWhite" android:layout_marginStart="6dp" android:text="Phosphorus (P)" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tvP"
@@ -236,7 +290,16 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <TextView style="@style/CardTitleWhite" android:text="🌱 Potassium (K)" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView style="@style/CardIconWhite" android:text="🌱" />
+
+                        <TextView style="@style/CardTitleWhite" android:layout_marginStart="6dp" android:text="Potassium (K)" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tvK"
@@ -260,7 +323,16 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <TextView style="@style/CardTitleWhite" android:text="🌊 Salinity" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView style="@style/CardIconWhite" android:text="🌊" />
+
+                        <TextView style="@style/CardTitleWhite" android:layout_marginStart="6dp" android:text="Salinity" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tvSalinity"
