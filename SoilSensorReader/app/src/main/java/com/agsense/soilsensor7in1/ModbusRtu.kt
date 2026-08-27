@@ -4,20 +4,14 @@ package com.agsense.soilsensor7in1
  * Minimal Modbus RTU implementation covering only what this sensor needs:
  * function code 0x03 (Read Holding Registers).
  *
- * This is the protocol used by the large family of Chinese "7-in-1" soil
- * sensors (moisture / temperature / EC / pH / N / P / K) that expose an
- * RS485-over-USB (CH340/CP210x/FTDI) interface. Default assumptions, which
- * may need adjusting once real behaviour is observed:
+ * Used here for a Chinese "8-in-1" soil sensor (temperature / moisture / EC /
+ * salinity / N / P / K / pH) that exposes an RS485-over-USB (CH340/CP210x/
+ * FTDI) interface. Confirmed against the manufacturer's own app:
  *   - Slave address: 1
  *   - Baud rate: 9600 8N1
- *   - Registers 0x0000..0x0006 hold, in order:
- *       0: moisture   (raw / 10 = %RH)
- *       1: temperature(raw / 10 = °C, two's-complement if raw > 32767)
- *       2: EC         (raw = µS/cm)
- *       3: pH         (raw / 10 = pH)
- *       4: nitrogen   (raw = mg/kg)
- *       5: phosphorus (raw = mg/kg)
- *       6: potassium  (raw = mg/kg)
+ *   - Registers 0x0000..0x0007 hold, in order: temperature, moisture, EC,
+ *     salinity, nitrogen, phosphorus, potassium, pH.
+ *     See SoilSensorReading.fromRegisters() for the exact scaling of each.
  */
 object ModbusRtu {
 

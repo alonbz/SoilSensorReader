@@ -31,7 +31,7 @@ class UsbSerialHelper(
 ) {
     companion object {
         private const val ACTION_USB_PERMISSION = "com.agsense.soilsensor7in1.USB_PERMISSION"
-        private const val REGISTER_COUNT = 7
+        private const val REGISTER_COUNT = 8
     }
 
     private val usbManager = context.getSystemService(Context.USB_SERVICE) as UsbManager

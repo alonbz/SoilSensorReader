@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="20dp">
 
         <TextView
             android:id="@+id/tvTitle"
@@ -22,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="גרסה: 1.0.0"
+            android:text="גרסה: 1.2.1"
             android:textSize="12sp"
             android:textColor="#888888" />
 
@@ -41,53 +43,235 @@
             android:text="ממתין לחיבור..."
             android:textSize="14sp" />
 
-        <View
+        <!-- Row 1: Temperature | Moisture -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="#DDDDDD" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tvMoisture"
-            style="@style/ReadingRow"
-            android:text="לחות: --" />
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                app:cardBackgroundColor="@color/cardTemperature"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp">
 
-        <TextView
-            android:id="@+id/tvTemperature"
-            style="@style/ReadingRow"
-            android:text="טמפרטורה: --" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-        <TextView
-            android:id="@+id/tvEc"
-            style="@style/ReadingRow"
-            android:text="מוליכות (EC): --" />
+                    <TextView style="@style/CardTitleWhite" android:text="טמפרטורה" />
 
-        <TextView
-            android:id="@+id/tvPh"
-            style="@style/ReadingRow"
-            android:text="pH: --" />
+                    <TextView
+                        android:id="@+id/tvTemperature"
+                        style="@style/CardValueWhite"
+                        android:text="--" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/tvN"
-            style="@style/ReadingRow"
-            android:text="חנקן (N): --" />
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                app:cardBackgroundColor="@color/cardMoisture"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp">
 
-        <TextView
-            android:id="@+id/tvP"
-            style="@style/ReadingRow"
-            android:text="זרחן (P): --" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-        <TextView
-            android:id="@+id/tvK"
-            style="@style/ReadingRow"
-            android:text="אשלגן (K): --" />
+                    <TextView style="@style/CardTitleWhite" android:text="לחות" />
+
+                    <TextView
+                        android:id="@+id/tvMoisture"
+                        style="@style/CardValueWhite"
+                        android:text="--" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <!-- Row 2: EC | Salinity -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                app:cardBackgroundColor="@color/cardEc"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView style="@style/CardTitleWhite" android:text="מוליכות (EC)" />
+
+                    <TextView
+                        android:id="@+id/tvEc"
+                        style="@style/CardValueWhite"
+                        android:text="--" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                app:cardBackgroundColor="@color/cardSalinity"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView style="@style/CardTitleWhite" android:text="מליחות (Salinity)" />
+
+                    <TextView
+                        android:id="@+id/tvSalinity"
+                        style="@style/CardValueWhite"
+                        android:text="--" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <!-- Row 3: N | P -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                app:cardBackgroundColor="@color/cardNitrogen"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView style="@style/CardTitleWhite" android:text="חנקן (N)" />
+
+                    <TextView
+                        android:id="@+id/tvN"
+                        style="@style/CardValueWhite"
+                        android:text="--" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                app:cardBackgroundColor="@color/cardPhosphorus"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView style="@style/CardTitleWhite" android:text="זרחן (P)" />
+
+                    <TextView
+                        android:id="@+id/tvP"
+                        style="@style/CardValueWhite"
+                        android:text="--" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <!-- Row 4: K | pH -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                app:cardBackgroundColor="@color/cardPotassium"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView style="@style/CardTitleWhite" android:text="אשלגן (K)" />
+
+                    <TextView
+                        android:id="@+id/tvK"
+                        style="@style/CardValueWhite"
+                        android:text="--" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                app:cardBackgroundColor="@color/cardPh"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView style="@style/CardTitleWhite" android:text="pH" />
+
+                    <TextView
+                        android:id="@+id/tvPh"
+                        style="@style/CardValueWhite"
+                        android:text="--" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvLastUpdate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:text="עדכון אחרון: --"
             android:textSize="12sp"
             android:textColor="#888888" />
