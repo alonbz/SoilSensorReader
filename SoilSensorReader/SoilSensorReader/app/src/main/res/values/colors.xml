@@ -1,0 +1,10 @@
+<resources>
+    <color name="cardTemperature">#FF9F5A</color>
+    <color name="cardMoisture">#4FC3F7</color>
+    <color name="cardEc">#9575CD</color>
+    <color name="cardSalinity">#4DD0E1</color>
+    <color name="cardNitrogen">#FF8A80</color>
+    <color name="cardPhosphorus">#4DB6AC</color>
+    <color name="cardPotassium">#64B5F6</color>
+    <color name="cardPh">#81C784</color>
+</resources>
