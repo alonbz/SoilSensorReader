@@ -11,8 +11,8 @@ android {
         applicationId = "com.agsense.soilsensor7in1"
         minSdk = 26
         targetSdk = 34
-        versionCode = 9
-        versionName = "1.4.1"
+        versionCode = 10
+        versionName = "1.5.0"
     }
 
     signingConfigs {

@@ -68,7 +68,7 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <TextView style="@style/CardTitleDark" android:text="טמפרטורה" />
+                    <TextView style="@style/CardTitleDark" android:text="🌡️ Temperature" />
 
                     <TextView
                         android:id="@+id/tvTemperature"
@@ -92,7 +92,7 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <TextView style="@style/CardTitleWhite" android:text="לחות" />
+                    <TextView style="@style/CardTitleWhite" android:text="💧 Moisture" />
 
                     <TextView
                         android:id="@+id/tvMoisture"
@@ -124,7 +124,7 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <TextView style="@style/CardTitleDark" android:text="pH" />
+                    <TextView style="@style/CardTitleDark" android:text="🧪 pH" />
 
                     <TextView
                         android:id="@+id/tvPh"
@@ -148,7 +148,7 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <TextView style="@style/CardTitleDark" android:text="מוליכות (EC)" />
+                    <TextView style="@style/CardTitleDark" android:text="⚡ Conductivity (EC)" />
 
                     <TextView
                         android:id="@+id/tvEc"
@@ -180,7 +180,7 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <TextView style="@style/CardTitleDark" android:text="חנקן (N)" />
+                    <TextView style="@style/CardTitleDark" android:text="🌱 Nitrogen (N)" />
 
                     <TextView
                         android:id="@+id/tvN"
@@ -204,7 +204,7 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <TextView style="@style/CardTitleWhite" android:text="זרחן (P)" />
+                    <TextView style="@style/CardTitleWhite" android:text="🌱 Phosphorus (P)" />
 
                     <TextView
                         android:id="@+id/tvP"
@@ -236,7 +236,7 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <TextView style="@style/CardTitleWhite" android:text="אשלגן (K)" />
+                    <TextView style="@style/CardTitleWhite" android:text="🌱 Potassium (K)" />
 
                     <TextView
                         android:id="@+id/tvK"
@@ -260,7 +260,7 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <TextView style="@style/CardTitleWhite" android:text="מליחות (Salinity)" />
+                    <TextView style="@style/CardTitleWhite" android:text="🌊 Salinity" />
 
                     <TextView
                         android:id="@+id/tvSalinity"
