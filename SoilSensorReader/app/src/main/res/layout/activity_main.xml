@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="חיישן קרקע 7-in-1"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="גרסה: 1.0.0"
+            android:textSize="12sp"
+            android:textColor="#888888" />
+
+        <Button
+            android:id="@+id/btnConnect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="התחבר לחיישן" />
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="ממתין לחיבור..."
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="#DDDDDD" />
+
+        <TextView
+            android:id="@+id/tvMoisture"
+            style="@style/ReadingRow"
+            android:text="לחות: --" />
+
+        <TextView
+            android:id="@+id/tvTemperature"
+            style="@style/ReadingRow"
+            android:text="טמפרטורה: --" />
+
+        <TextView
+            android:id="@+id/tvEc"
+            style="@style/ReadingRow"
+            android:text="מוליכות (EC): --" />
+
+        <TextView
+            android:id="@+id/tvPh"
+            style="@style/ReadingRow"
+            android:text="pH: --" />
+
+        <TextView
+            android:id="@+id/tvN"
+            style="@style/ReadingRow"
+            android:text="חנקן (N): --" />
+
+        <TextView
+            android:id="@+id/tvP"
+            style="@style/ReadingRow"
+            android:text="זרחן (P): --" />
+
+        <TextView
+            android:id="@+id/tvK"
+            style="@style/ReadingRow"
+            android:text="אשלגן (K): --" />
+
+        <TextView
+            android:id="@+id/tvLastUpdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="עדכון אחרון: --"
+            android:textSize="12sp"
+            android:textColor="#888888" />
+
+    </LinearLayout>
+</ScrollView>
