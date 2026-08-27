@@ -22,11 +22,19 @@ jobs:
         with:
           gradle-version: '8.7'
 
+      - name: Find Gradle project root
+        id: locate
+        run: |
+          DIR=$(dirname "$(find . -maxdepth 5 -name settings.gradle.kts | head -n 1)")
+          echo "Found project root: $DIR"
+          echo "dir=$DIR" >> "$GITHUB_OUTPUT"
+
       - name: Build debug APK
+        working-directory: ${{ steps.locate.outputs.dir }}
         run: gradle assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: soil-sensor-reader-debug-apk
-          path: app/build/outputs/apk/debug/*.apk
+          path: '**/app/build/outputs/apk/debug/*.apk'
