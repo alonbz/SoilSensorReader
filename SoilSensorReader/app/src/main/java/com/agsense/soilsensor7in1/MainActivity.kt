@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
         tvK.text = "${reading.potassiumMgKg} mg/kg"
         tvPh.text = "%.2f".format(reading.ph)
 
-        val timeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+        val timeFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
         tvLastUpdate.text = "עדכון אחרון: ${timeFormat.format(Date(reading.timestampMillis))}"
     }
 

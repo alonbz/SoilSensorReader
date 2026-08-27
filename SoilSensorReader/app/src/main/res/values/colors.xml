@@ -4,7 +4,7 @@
     <color name="cardMoisture">#50A0F0</color>
     <color name="cardEc">#AA8CE1</color>
     <color name="cardPh">#FDC618</color>
-    <color name="cardNitrogen">#ECA282</color>
+    <color name="cardNitrogen">#8BC34A</color>
     <color name="cardPhosphorus">#29BED2</color>
     <color name="cardPotassium">#5B7CE1</color>
     <!-- Salinity has no reference card (8th parameter we added) - chosen to be visually distinct -->
