@@ -9,13 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="14dp">
 
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="2dp"
             android:gravity="center"
             android:text="חיישן קרקע 1-8"
             android:textSize="22sp"
@@ -35,14 +35,14 @@
             android:id="@+id/btnConnect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="התחבר לחיישן" />
 
         <TextView
             android:id="@+id/tvStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:text="ממתין לחיבור..."
             android:textSize="14sp" />
 
@@ -59,7 +59,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <androidx.cardview.widget.CardView
@@ -75,7 +75,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="12dp"
+                    android:minHeight="88dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -108,7 +109,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="12dp"
+                    android:minHeight="88dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -133,7 +135,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
             <androidx.cardview.widget.CardView
@@ -149,7 +151,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="12dp"
+                    android:minHeight="88dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -182,7 +185,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="12dp"
+                    android:minHeight="88dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -192,7 +196,7 @@
 
                         <TextView style="@style/CardIconDark" android:text="⚡" />
 
-                        <TextView style="@style/CardTitleDark" android:layout_width="0dp" android:layout_weight="1" android:layout_marginStart="6dp" android:text="Conductivity (EC)" />
+                        <TextView style="@style/CardTitleDark" android:layout_width="0dp" android:layout_weight="1" android:layout_marginStart="6dp" android:text="EC" />
                     </LinearLayout>
 
                     <TextView
@@ -207,7 +211,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
             <androidx.cardview.widget.CardView
@@ -223,7 +227,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="12dp"
+                    android:minHeight="88dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -233,7 +238,7 @@
 
                         <TextView style="@style/CardIconDark" android:text="🌱" />
 
-                        <TextView style="@style/CardTitleDark" android:layout_width="0dp" android:layout_weight="1" android:layout_marginStart="6dp" android:text="Nitrogen (N)" />
+                        <TextView style="@style/CardTitleDark" android:layout_width="0dp" android:layout_weight="1" android:layout_marginStart="6dp" android:text="Nitrogen" />
                     </LinearLayout>
 
                     <TextView
@@ -256,7 +261,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="12dp"
+                    android:minHeight="88dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -266,7 +272,7 @@
 
                         <TextView style="@style/CardIconWhite" android:text="🌱" />
 
-                        <TextView style="@style/CardTitleWhite" android:layout_width="0dp" android:layout_weight="1" android:layout_marginStart="6dp" android:text="Phosphorus (P)" />
+                        <TextView style="@style/CardTitleWhite" android:layout_width="0dp" android:layout_weight="1" android:layout_marginStart="6dp" android:text="Phosphorus" />
                     </LinearLayout>
 
                     <TextView
@@ -281,7 +287,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
             <androidx.cardview.widget.CardView
@@ -297,7 +303,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="12dp"
+                    android:minHeight="88dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -307,7 +314,7 @@
 
                         <TextView style="@style/CardIconWhite" android:text="🌱" />
 
-                        <TextView style="@style/CardTitleWhite" android:layout_width="0dp" android:layout_weight="1" android:layout_marginStart="6dp" android:text="Potassium (K)" />
+                        <TextView style="@style/CardTitleWhite" android:layout_width="0dp" android:layout_weight="1" android:layout_marginStart="6dp" android:text="Potassium" />
                     </LinearLayout>
 
                     <TextView
@@ -330,7 +337,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="12dp"
+                    android:minHeight="88dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -355,7 +363,7 @@
             android:id="@+id/tvLastUpdate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="עדכון אחרון: --"
             android:textSize="12sp"
@@ -363,10 +371,10 @@
 
         <ImageView
             android:id="@+id/ivBrandLogo"
-            android:layout_width="150dp"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:adjustViewBounds="true"
             android:contentDescription="AG-Sense"
             android:src="@drawable/ag_sense_logo" />
