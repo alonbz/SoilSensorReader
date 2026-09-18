@@ -16,8 +16,8 @@ android {
         applicationId = "com.agsense.soilsensor7in1"
         minSdk = 26
         targetSdk = 34
-        versionCode = 16
-        versionName = "1.7.1"
+        versionCode = 18
+        versionName = "1.8.1"
 
         buildConfigField("String", "BUILD_DATE", "\"$buildTimestamp\"")
     }
@@ -60,4 +60,7 @@ dependencies {
 
     // Handles CH340 / CP210x / FTDI / PL2303 / CDC-ACM USB-serial chips automatically
     implementation("com.github.mik3y:usb-serial-for-android:3.7.0")
+
+    // Chart for the sensor history screen
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }

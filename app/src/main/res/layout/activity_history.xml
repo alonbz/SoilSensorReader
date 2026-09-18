@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="14dp">
+
+        <TextView
+            android:id="@+id/tvHistoryTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="היסטוריית חיישן"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvHistorySensorLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:text=""
+            android:textSize="12sp"
+            android:textColor="#888888" />
+
+        <!-- Date range controls -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="מ-:"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btnFromDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:textSize="12sp"
+                android:text="--" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="עד:"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btnToDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:textSize="12sp"
+                android:text="--" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnRefreshHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="הצג" />
+
+        <TextView
+            android:id="@+id/tvHistoryStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:text=""
+            android:textSize="13sp"
+            android:textColor="#888888" />
+
+        <!-- Combined chart for all metrics -->
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chartHistory"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            android:layout_marginTop="14dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="שים לב: הסקאלות של המדדים שונות מאוד זו מזו (למשל EC במאות/אלפים לצד pH בין 0-14), כך שבגרף אחד מדדים קטנים עשויים להיראות שטוחים לצד מדדים גדולים."
+            android:textSize="10sp"
+            android:textColor="#AAAAAA" />
+
+        <!-- Scrollable table -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp">
+
+            <TableLayout
+                android:id="@+id/tableHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*">
+
+                <TableRow android:background="#EEEEEE">
+                    <TextView android:padding="6dp" android:textStyle="bold" android:text="זמן" android:minWidth="130dp" />
+                    <TextView android:padding="6dp" android:textStyle="bold" android:text="🌡️ °C" android:minWidth="60dp" />
+                    <TextView android:padding="6dp" android:textStyle="bold" android:text="💧 %" android:minWidth="60dp" />
+                    <TextView android:padding="6dp" android:textStyle="bold" android:text="⚡ EC" android:minWidth="60dp" />
+                    <TextView android:padding="6dp" android:textStyle="bold" android:text="🌊 Sal" android:minWidth="60dp" />
+                    <TextView android:padding="6dp" android:textStyle="bold" android:text="N" android:minWidth="50dp" />
+                    <TextView android:padding="6dp" android:textStyle="bold" android:text="P" android:minWidth="50dp" />
+                    <TextView android:padding="6dp" android:textStyle="bold" android:text="K" android:minWidth="50dp" />
+                    <TextView android:padding="6dp" android:textStyle="bold" android:text="🧪 pH" android:minWidth="60dp" />
+                </TableRow>
+                <!-- Data rows added programmatically -->
+            </TableLayout>
+        </HorizontalScrollView>
+
+    </LinearLayout>
+</ScrollView>

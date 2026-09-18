@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/menu_rename_sensor"
-        android:title="שם החיישן" />
+        android:id="@+id/menu_sensor_settings"
+        android:title="שם החיישן ותדירות שמירה" />
+    <item
+        android:id="@+id/menu_history"
+        android:title="היסטוריה" />
     <item
         android:id="@+id/menu_version_info"
         android:title="גרסה ותאריך עדכון" />

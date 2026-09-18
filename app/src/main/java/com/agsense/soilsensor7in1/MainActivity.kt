@@ -1,12 +1,15 @@
 package com.agsense.soilsensor7in1
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import java.text.SimpleDateFormat
@@ -15,8 +18,14 @@ import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
+    companion object {
+        private const val KEY_SAVE_INTERVAL_SUFFIX = ":interval_minutes"
+        private const val DEFAULT_SAVE_INTERVAL_MINUTES = 5
+    }
+
     private lateinit var usbHelper: UsbSerialHelper
     private lateinit var prefs: SharedPreferences
+    private lateinit var dbHelper: SensorHistoryDbHelper
 
     private lateinit var tvStatus: TextView
     private lateinit var tvTemperature: TextView
@@ -35,11 +44,15 @@ class MainActivity : AppCompatActivity() {
     private var currentDeviceKey: String? = null
     private var currentDeviceDisplayInfo: String = ""
 
+    /** Per-sensor throttling: last time (millis) we actually persisted a sample for that sensor. */
+    private val lastSavedAt = mutableMapOf<String, Long>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         prefs = getSharedPreferences("sensor_names", MODE_PRIVATE)
+        dbHelper = SensorHistoryDbHelper(this)
 
         tvStatus = findViewById(R.id.tvStatus)
         tvTemperature = findViewById(R.id.tvTemperature)
@@ -62,7 +75,12 @@ class MainActivity : AppCompatActivity() {
             slaveAddress = 1,
             baudRate = 9600,
             pollIntervalMs = 2000L,
-            onReadingReceived = { reading -> runOnUiThread { updateUi(reading) } },
+            onReadingReceived = { reading ->
+                runOnUiThread {
+                    updateUi(reading)
+                    maybeSaveReading(reading)
+                }
+            },
             onStatus = { message -> runOnUiThread { tvStatus.text = message } },
             onDeviceInfo = { deviceKey, displayInfo ->
                 runOnUiThread {
@@ -83,12 +101,27 @@ class MainActivity : AppCompatActivity() {
         usbHelper.findAndConnect()
     }
 
+    /** Persists a reading for the currently connected sensor, throttled to that sensor's own configured save interval. */
+    private fun maybeSaveReading(reading: SoilSensorReading) {
+        val key = currentDeviceKey ?: return
+        val intervalMs = getSaveIntervalMinutes(key) * 60_000L
+        val last = lastSavedAt[key] ?: 0L
+        if (reading.timestampMillis - last >= intervalMs) {
+            dbHelper.insertReading(key, reading)
+            lastSavedAt[key] = reading.timestampMillis
+        }
+    }
+
+    private fun getSaveIntervalMinutes(key: String): Int =
+        prefs.getInt(key + KEY_SAVE_INTERVAL_SUFFIX, DEFAULT_SAVE_INTERVAL_MINUTES)
+
     private fun showAppMenu(anchor: View) {
         val popup = PopupMenu(this, anchor)
         popup.inflate(R.menu.main_menu)
         popup.setOnMenuItemClickListener { item ->
             when (item.itemId) {
-                R.id.menu_rename_sensor -> showRenameSensorDialog()
+                R.id.menu_sensor_settings -> showSensorSettingsDialog()
+                R.id.menu_history -> openHistory()
                 R.id.menu_version_info -> showVersionInfoDialog()
             }
             true
@@ -96,33 +129,77 @@ class MainActivity : AppCompatActivity() {
         popup.show()
     }
 
-    private fun showRenameSensorDialog() {
+    /** Per-sensor dialog: name, plus this specific sensor's own save interval. */
+    private fun showSensorSettingsDialog() {
         val key = currentDeviceKey
         if (key == null) {
             AlertDialog.Builder(this)
-                .setTitle("שם החיישן")
-                .setMessage("אין חיישן מחובר כרגע - חבר חיישן לפני שנותנים לו שם.")
+                .setTitle("הגדרות חיישן")
+                .setMessage("אין חיישן מחובר כרגע - חבר חיישן לפני שמגדירים שם או מרווח שמירה (שניהם פרטניים לכל חיישן).")
                 .setPositiveButton("סגור", null)
                 .show()
             return
         }
 
-        val input = EditText(this).apply {
-            setText(prefs.getString(key, ""))
+        val nameInput = EditText(this).apply {
             hint = "לדוגמה: חממה 1, חלקה צפונית..."
+            setText(prefs.getString(key, ""))
+        }
+        val intervalInput = EditText(this).apply {
+            hint = "מרווח שמירה (דקות)"
+            inputType = android.text.InputType.TYPE_CLASS_NUMBER
+            setText(getSaveIntervalMinutes(key).toString())
         }
 
+        val container = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(dp(20), dp(8), dp(20), dp(8))
+        }
+
+        container.addView(TextView(this).apply { text = "שם החיישן:" })
+        container.addView(nameInput)
+
+        container.addView(TextView(this).apply {
+            text = "מרווח שמירת היסטוריה לחיישן הזה (בדקות):"
+            setPadding(0, dp(12), 0, 0)
+        })
+        container.addView(intervalInput)
+
         AlertDialog.Builder(this)
-            .setTitle("שם החיישן")
-            .setMessage("השם הזה יישמר לפי מזהה החיישן, ויוצג אוטומטית בכל פעם שהחיישן הזה יתחבר.")
-            .setView(input)
+            .setTitle("הגדרות חיישן")
+            .setView(container)
             .setPositiveButton("שמור") { _, _ ->
-                val name = input.text.toString().trim()
-                prefs.edit().putString(key, name).apply()
+                prefs.edit().putString(key, nameInput.text.toString().trim()).apply()
                 refreshSensorIdDisplay()
+
+                val minutes = intervalInput.text.toString().toIntOrNull()
+                if (minutes != null && minutes > 0) {
+                    prefs.edit().putInt(key + KEY_SAVE_INTERVAL_SUFFIX, minutes).apply()
+                } else {
+                    Toast.makeText(this, "מרווח השמירה לא תקין - נשאר ללא שינוי", Toast.LENGTH_SHORT).show()
+                }
             }
             .setNegativeButton("ביטול", null)
             .show()
+    }
+
+    private fun openHistory() {
+        val key = currentDeviceKey
+        if (key == null) {
+            Toast.makeText(this, "חבר חיישן לפני שפותחים היסטוריה", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val savedName = prefs.getString(key, null)
+        val label = if (!savedName.isNullOrBlank()) {
+            "$savedName  ·  $currentDeviceDisplayInfo"
+        } else {
+            currentDeviceDisplayInfo
+        }
+        startActivity(
+            Intent(this, HistoryActivity::class.java)
+                .putExtra(HistoryActivity.EXTRA_SENSOR_KEY, key)
+                .putExtra(HistoryActivity.EXTRA_SENSOR_LABEL, label)
+        )
     }
 
     private fun showVersionInfoDialog() {
@@ -147,6 +224,8 @@ class MainActivity : AppCompatActivity() {
             currentDeviceDisplayInfo
         }
     }
+
+    private fun dp(value: Int): Int = (value * resources.displayMetrics.density).toInt()
 
     private fun updateUi(reading: SoilSensorReading) {
         tvTemperature.text = "%.1f°C".format(reading.temperatureC)
