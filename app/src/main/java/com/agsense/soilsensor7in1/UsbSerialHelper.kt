@@ -29,7 +29,7 @@ class UsbSerialHelper(
     private val pollIntervalMs: Long = 2000L,
     private val onReadingReceived: (SoilSensorReading) -> Unit,
     private val onStatus: (String) -> Unit,
-    private val onDeviceInfo: (String) -> Unit = {}
+    private val onDeviceInfo: (deviceKey: String, displayInfo: String) -> Unit = { _, _ -> }
 ) {
     companion object {
         private const val ACTION_USB_PERMISSION = "com.agsense.soilsensor7in1.USB_PERMISSION"
@@ -60,7 +60,7 @@ class UsbSerialHelper(
                 }
                 UsbManager.ACTION_USB_DEVICE_DETACHED -> {
                     onStatus("החיישן נותק")
-                    onDeviceInfo("")
+                    onDeviceInfo("", "")
                     stopPolling()
                     serialPort?.close()
                     serialPort = null
@@ -147,7 +147,8 @@ class UsbSerialHelper(
             )
             serialPort = port
             onStatus("מחובר לחיישן")
-            onDeviceInfo(buildDeviceIdString(device, connection))
+            val (deviceKey, displayInfo) = buildDeviceIdentity(device, connection)
+            onDeviceInfo(deviceKey, displayInfo)
             startPolling()
         } catch (e: Exception) {
             onStatus("שגיאה בפתיחת החיבור: ${e.message}")
@@ -155,22 +156,29 @@ class UsbSerialHelper(
     }
 
     /**
-     * Builds a human-readable identifier for the connected sensor: USB
-     * vendor/product ID (identifies the chip, e.g. CH340), Android's
-     * internal device ID (changes per USB port/session), and the device's
-     * serial number string if the OS exposes one (not all USB-serial chips
-     * report a real serial - many CH340 clones return null or a generic
-     * value).
+     * Builds two things for the connected sensor:
+     * - a stable key (VID:PID + serial number, or VID:PID alone if the chip
+     *   reports no serial) used to remember a per-sensor name across
+     *   reconnects and across different physical sensors plugged in;
+     * - a human-readable display string with the same info plus Android's
+     *   internal device ID (which is NOT stable across reconnects, shown
+     *   only for troubleshooting).
+     *
+     * Caveat: many CH340 clones report no real serial number, in which case
+     * two identical sensors would share the same key/name - there is no way
+     * to tell them apart at the protocol level without a real serial.
      */
-    private fun buildDeviceIdString(device: UsbDevice, connection: UsbDeviceConnection): String {
+    private fun buildDeviceIdentity(device: UsbDevice, connection: UsbDeviceConnection): Pair<String, String> {
         val vendorProduct = String.format("VID:%04X PID:%04X", device.vendorId, device.productId)
         val serial = try {
             connection.serial
         } catch (_: Exception) {
             null
         }
+        val key = if (!serial.isNullOrBlank()) "$vendorProduct:$serial" else vendorProduct
         val serialPart = if (!serial.isNullOrBlank()) " · S/N: $serial" else ""
-        return "מזהה חיישן: $vendorProduct (Android ID: ${device.deviceId})$serialPart"
+        val display = "מזהה חיישן: $vendorProduct (Android ID: ${device.deviceId})$serialPart"
+        return key to display
     }
 
     private fun startPolling() {

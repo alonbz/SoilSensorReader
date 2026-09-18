@@ -3,6 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
+val buildTimestamp: String = java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(java.util.Date())
+
 android {
     namespace = "com.agsense.soilsensor7in1"
     compileSdk = 34
@@ -11,8 +13,10 @@ android {
         applicationId = "com.agsense.soilsensor7in1"
         minSdk = 26
         targetSdk = 34
-        versionCode = 14
-        versionName = "1.6.1"
+        versionCode = 15
+        versionName = "1.7.0"
+
+        buildConfigField("String", "BUILD_DATE", "\"$buildTimestamp\"")
     }
 
     signingConfigs {
