@@ -13,7 +13,7 @@ object XlsxExporter {
         "חנקן N (mg/kg)", "זרחן P (mg/kg)", "אשלגן K (mg/kg)", "pH"
     )
 
-    fun build(rows: List<HistoryRow>): ByteArray {
+    fun build(rows: List<HistoryRow>, title: String = ""): ByteArray {
         val out = ByteArrayOutputStream()
         ZipOutputStream(out).use { zip ->
             fun add(name: String, content: String) {
@@ -35,16 +35,18 @@ object XlsxExporter {
             val sb = StringBuilder()
             sb.append("""<?xml version="1.0" encoding="UTF-8" standalone="yes"?>""")
             sb.append("""<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">""")
-            sb.append("""<sheetViews><sheetView rightToLeft="1" workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>""")
+            sb.append("""<sheetViews><sheetView rightToLeft="1" workbookViewId="0"><pane ySplit="2" topLeftCell="A3" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>""")
             sb.append("""<cols><col min="1" max="1" width="22" customWidth="1"/><col min="2" max="9" width="16" customWidth="1"/></cols>""")
             sb.append("<sheetData>")
-            sb.append("""<row r="1">""")
+            // Row 1: sensor name (bold), row 2: column headers, data from row 3
+            sb.append("""<row r="1"><c r="A1" s="2" t="inlineStr"><is><t>${esc("חיישן: $title")}</t></is></c></row>""")
+            sb.append("""<row r="2">""")
             headers.forEachIndexed { i, h ->
-                sb.append("""<c r="${col(i)}1" s="2" t="inlineStr"><is><t>${esc(h)}</t></is></c>""")
+                sb.append("""<c r="${col(i)}2" s="2" t="inlineStr"><is><t>${esc(h)}</t></is></c>""")
             }
             sb.append("</row>")
             rows.forEachIndexed { idx, r ->
-                val n = idx + 2
+                val n = idx + 3
                 // Excel date serial in local time
                 val local = r.timestampMillis + TimeZone.getDefault().getOffset(r.timestampMillis)
                 val serial = local / 86_400_000.0 + 25569.0

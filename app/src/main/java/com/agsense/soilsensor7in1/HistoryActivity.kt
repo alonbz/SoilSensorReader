@@ -31,6 +31,7 @@ class HistoryActivity : AppCompatActivity() {
     private lateinit var dbHelper: SensorHistoryDbHelper
     private lateinit var sensorKey: String
     private var sensorName: String = ""
+    private var sensorLabelText: String = ""
     private var lastRows: List<HistoryRow> = emptyList()
 
     private lateinit var tvHistorySensorLabel: TextView
@@ -53,6 +54,7 @@ class HistoryActivity : AppCompatActivity() {
         sensorKey = intent.getStringExtra(EXTRA_SENSOR_KEY) ?: ""
         val sensorLabel = intent.getStringExtra(EXTRA_SENSOR_LABEL) ?: ""
         sensorName = intent.getStringExtra(EXTRA_SENSOR_NAME) ?: ""
+        sensorLabelText = sensorLabel
 
         tvHistorySensorLabel = findViewById(R.id.tvHistorySensorLabel)
         tvHistorySensorLabel.text = sensorLabel
@@ -146,7 +148,7 @@ class HistoryActivity : AppCompatActivity() {
             val stamp = SimpleDateFormat("yyyyMMdd_HHmm", Locale.US).format(java.util.Date())
             val safeName = sensorName.replace(Regex("[\\/:*?\"<>|\\s]+"), "_").trim('_')
             val fileName = "AGSense_" + (if (safeName.isNotEmpty()) "${safeName}_" else "") + "history_$stamp.xlsx"
-            val bytes = XlsxExporter.build(lastRows)
+            val bytes = XlsxExporter.build(lastRows, if (sensorName.isNotEmpty()) sensorName else sensorLabelText)
 
             if (share) {
                 val dir = java.io.File(cacheDir, "exports").apply { mkdirs() }
