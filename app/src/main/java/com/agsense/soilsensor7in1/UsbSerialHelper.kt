@@ -113,13 +113,18 @@ class UsbSerialHelper(
         if (usbManager.hasPermission(device)) {
             openDevice(device)
         } else {
+            // Android 14+ (targetSdk 34) forbids a mutable PendingIntent around an implicit Intent,
+            // so the intent is made explicit with setPackage(). It must stay mutable: the system
+            // adds the UsbDevice / permission-granted extras to it.
             val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                PendingIntent.FLAG_MUTABLE
+                PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             } else {
-                0
+                PendingIntent.FLAG_UPDATE_CURRENT
             }
             val permissionIntent = PendingIntent.getBroadcast(
-                context, 0, Intent(ACTION_USB_PERMISSION), flags
+                context, 0,
+                Intent(ACTION_USB_PERMISSION).setPackage(context.packageName),
+                flags
             )
             usbManager.requestPermission(device, permissionIntent)
         }
