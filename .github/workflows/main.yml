@@ -1,4 +1,4 @@
-name: Build APK
+name: Build APK and AAB
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: '8.7'
+          gradle-version: '8.11.1'
 
       - name: Find Gradle project root
         id: locate
@@ -33,8 +33,38 @@ jobs:
         working-directory: ${{ steps.locate.outputs.dir }}
         run: gradle assembleDebug
 
-      - name: Upload APK
+      - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:
           name: soil-sensor-reader-debug-apk
           path: '**/app/build/outputs/apk/debug/*.apk'
+
+      - name: Decode upload keystore
+        id: keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/upload.keystore"
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "No KEYSTORE_BASE64 secret - skipping signed AAB."
+          fi
+
+      - name: Build signed release AAB
+        if: steps.keystore.outputs.present == 'true'
+        working-directory: ${{ steps.locate.outputs.dir }}
+        env:
+          KEYSTORE_FILE: ${{ runner.temp }}/upload.keystore
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: gradle bundleRelease
+
+      - name: Upload AAB
+        if: steps.keystore.outputs.present == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: soil-sensor-reader-release-aab
+          path: '**/app/build/outputs/bundle/release/*.aab'
