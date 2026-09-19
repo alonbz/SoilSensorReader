@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        applySystemBarInsets()
 
         prefs = getSharedPreferences("sensor_names", MODE_PRIVATE)
         dbHelper = SensorHistoryDbHelper(this)
@@ -253,5 +254,17 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         usbHelper.unregister()
         super.onDestroy()
+    }
+    /** targetSdk 35+ forces edge-to-edge: pad the content so it doesn't sit under the status/navigation bars. */
+    private fun applySystemBarInsets() {
+        val content = findViewById<View>(android.R.id.content)
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(content) { v, insets ->
+            val bars = insets.getInsets(
+                androidx.core.view.WindowInsetsCompat.Type.systemBars() or
+                    androidx.core.view.WindowInsetsCompat.Type.displayCutout()
+            )
+            v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
+            insets
+        }
     }
 }

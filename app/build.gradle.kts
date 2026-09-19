@@ -10,14 +10,14 @@ val buildTimestamp: String = SimpleDateFormat("dd/MM/yyyy HH:mm").format(Date())
 
 android {
     namespace = "com.agsense.soilsensor"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.agsense.soilsensor"
         minSdk = 26
-        targetSdk = 34
-        versionCode = 23
-        versionName = "1.8.6"
+        targetSdk = 36
+        versionCode = 24
+        versionName = "1.9.0"
 
         buildConfigField("String", "BUILD_DATE", "\"$buildTimestamp\"")
     }
@@ -31,9 +31,26 @@ android {
         }
     }
 
+    // Release signing for Google Play. Values come from environment variables (GitHub Secrets);
+    // when they are missing (e.g. a local build) the release build is left unsigned.
+    val releaseKeystore = System.getenv("KEYSTORE_FILE")
+    if (releaseKeystore != null) {
+        signingConfigs {
+            create("release") {
+                storeFile = file(releaseKeystore)
+                storePassword = System.getenv("KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("KEY_ALIAS")
+                keyPassword = System.getenv("KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
+            if (releaseKeystore != null) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
 

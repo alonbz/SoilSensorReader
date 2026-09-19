@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.view.Gravity
 import android.widget.Button
 import android.widget.TableLayout
@@ -49,6 +50,7 @@ class HistoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history)
+        applySystemBarInsets()
 
         dbHelper = SensorHistoryDbHelper(this)
         sensorKey = intent.getStringExtra(EXTRA_SENSOR_KEY) ?: ""
@@ -280,5 +282,17 @@ class HistoryActivity : AppCompatActivity() {
 
         chartHistory.data = LineData(dataSets)
         chartHistory.invalidate()
+    }
+    /** targetSdk 35+ forces edge-to-edge: pad the content so it doesn't sit under the status/navigation bars. */
+    private fun applySystemBarInsets() {
+        val content = findViewById<View>(android.R.id.content)
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(content) { v, insets ->
+            val bars = insets.getInsets(
+                androidx.core.view.WindowInsetsCompat.Type.systemBars() or
+                    androidx.core.view.WindowInsetsCompat.Type.displayCutout()
+            )
+            v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
+            insets
+        }
     }
 }
