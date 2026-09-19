@@ -25,10 +25,13 @@ class HistoryActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_SENSOR_KEY = "sensor_key"
         const val EXTRA_SENSOR_LABEL = "sensor_label"
+        const val EXTRA_SENSOR_NAME = "sensor_name"
     }
 
     private lateinit var dbHelper: SensorHistoryDbHelper
     private lateinit var sensorKey: String
+    private var sensorName: String = ""
+    private var lastRows: List<HistoryRow> = emptyList()
 
     private lateinit var tvHistorySensorLabel: TextView
     private lateinit var btnFromDate: Button
@@ -49,6 +52,7 @@ class HistoryActivity : AppCompatActivity() {
         dbHelper = SensorHistoryDbHelper(this)
         sensorKey = intent.getStringExtra(EXTRA_SENSOR_KEY) ?: ""
         val sensorLabel = intent.getStringExtra(EXTRA_SENSOR_LABEL) ?: ""
+        sensorName = intent.getStringExtra(EXTRA_SENSOR_NAME) ?: ""
 
         tvHistorySensorLabel = findViewById(R.id.tvHistorySensorLabel)
         tvHistorySensorLabel.text = sensorLabel
@@ -68,6 +72,9 @@ class HistoryActivity : AppCompatActivity() {
         btnToDate.setOnClickListener { pickDateTime(toCalendar) { updateDateButtons() } }
 
         findViewById<Button>(R.id.btnRefreshHistory).setOnClickListener { loadHistory() }
+        findViewById<Button>(R.id.btnBackHome).setOnClickListener { finish() }
+        findViewById<Button>(R.id.btnExportExcel).setOnClickListener { exportExcel(share = false) }
+        findViewById<Button>(R.id.btnShareExcel).setOnClickListener { exportExcel(share = true) }
 
         setupChartAppearance()
         loadHistory()
@@ -118,6 +125,7 @@ class HistoryActivity : AppCompatActivity() {
         }
 
         val rows = dbHelper.queryReadings(sensorKey, fromMillis, toMillis)
+        lastRows = rows
         tvHistoryStatus.text = if (rows.isEmpty()) {
             "אין נתונים שמורים בטווח הנבחר"
         } else {
@@ -126,6 +134,56 @@ class HistoryActivity : AppCompatActivity() {
 
         populateTable(rows)
         populateChart(rows, fromMillis)
+    }
+
+    /** Exports the currently selected history range as .xlsx: saved to Downloads, or shared via the share sheet. */
+    private fun exportExcel(share: Boolean) {
+        if (lastRows.isEmpty()) {
+            Toast.makeText(this, "אין נתונים לייצוא בטווח הנבחר", Toast.LENGTH_SHORT).show()
+            return
+        }
+        try {
+            val stamp = SimpleDateFormat("yyyyMMdd_HHmm", Locale.US).format(java.util.Date())
+            val safeName = sensorName.replace(Regex("[\\/:*?\"<>|\\s]+"), "_").trim('_')
+            val fileName = "AGSense_" + (if (safeName.isNotEmpty()) "${safeName}_" else "") + "history_$stamp.xlsx"
+            val bytes = XlsxExporter.build(lastRows)
+
+            if (share) {
+                val dir = java.io.File(cacheDir, "exports").apply { mkdirs() }
+                val file = java.io.File(dir, fileName).apply { writeBytes(bytes) }
+                val uri = androidx.core.content.FileProvider.getUriForFile(this, "$packageName.fileprovider", file)
+                val send = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
+                    type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                    putExtra(android.content.Intent.EXTRA_STREAM, uri)
+                    addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
+                startActivity(android.content.Intent.createChooser(send, "ייצוא היסטוריה"))
+            } else {
+                val where = saveToDownloads(fileName, bytes)
+                Toast.makeText(this, "הקובץ נשמר: $where", Toast.LENGTH_LONG).show()
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this, "שגיאה בייצוא: ${e.message}", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun saveToDownloads(fileName: String, bytes: ByteArray): String {
+        val mime = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            val values = android.content.ContentValues().apply {
+                put(android.provider.MediaStore.MediaColumns.DISPLAY_NAME, fileName)
+                put(android.provider.MediaStore.MediaColumns.MIME_TYPE, mime)
+                put(android.provider.MediaStore.MediaColumns.RELATIVE_PATH, android.os.Environment.DIRECTORY_DOWNLOADS)
+            }
+            val uri = contentResolver.insert(android.provider.MediaStore.Downloads.EXTERNAL_CONTENT_URI, values)
+                ?: throw java.io.IOException("לא ניתן ליצור קובץ בהורדות")
+            contentResolver.openOutputStream(uri)?.use { it.write(bytes) }
+            return "הורדות/$fileName"
+        }
+        // Android 8-9: no storage permission requested, so use the app's own external Downloads folder.
+        val dir = getExternalFilesDir(android.os.Environment.DIRECTORY_DOWNLOADS) ?: filesDir
+        val file = java.io.File(dir, fileName).apply { writeBytes(bytes) }
+        return file.absolutePath
     }
 
     private fun populateTable(rows: List<HistoryRow>) {

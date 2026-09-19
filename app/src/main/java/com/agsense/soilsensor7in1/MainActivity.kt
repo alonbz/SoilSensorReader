@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvPh: TextView
     private lateinit var tvLastUpdate: TextView
     private lateinit var tvSensorId: TextView
-    private lateinit var tvVersion: TextView
 
     /** Stable key (VID:PID + serial) of whichever sensor is currently connected, or null if none. */
     private var currentDeviceKey: String? = null
@@ -65,8 +64,6 @@ class MainActivity : AppCompatActivity() {
         tvPh = findViewById(R.id.tvPh)
         tvLastUpdate = findViewById(R.id.tvLastUpdate)
         tvSensorId = findViewById(R.id.tvSensorId)
-        tvVersion = findViewById(R.id.tvVersion)
-        tvVersion.text = "גרסה: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
 
         findViewById<View>(R.id.btnMenu).setOnClickListener { showAppMenu(it) }
 
@@ -136,7 +133,7 @@ class MainActivity : AppCompatActivity() {
             AlertDialog.Builder(this)
                 .setTitle("הגדרות חיישן")
                 .setMessage("אין חיישן מחובר כרגע - חבר חיישן לפני שמגדירים שם או מרווח שמירה (שניהם פרטניים לכל חיישן).")
-                .setPositiveButton("סגור", null)
+                .setPositiveButton("חזרה למסך הראשי", null)
                 .show()
             return
         }
@@ -155,6 +152,14 @@ class MainActivity : AppCompatActivity() {
             orientation = LinearLayout.VERTICAL
             setPadding(dp(20), dp(8), dp(20), dp(8))
         }
+
+        // Full technical details are shown here (where the name is set), not on the main screen once a name exists.
+        container.addView(TextView(this).apply {
+            text = "פרטי החיישן: $currentDeviceDisplayInfo"
+            textSize = 12f
+            setTextColor(android.graphics.Color.parseColor("#888888"))
+            setPadding(0, 0, 0, dp(12))
+        })
 
         container.addView(TextView(this).apply { text = "שם החיישן:" })
         container.addView(nameInput)
@@ -179,7 +184,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "מרווח השמירה לא תקין - נשאר ללא שינוי", Toast.LENGTH_SHORT).show()
                 }
             }
-            .setNegativeButton("ביטול", null)
+            .setNegativeButton("חזרה למסך הראשי", null)
             .show()
     }
 
@@ -199,6 +204,7 @@ class MainActivity : AppCompatActivity() {
             Intent(this, HistoryActivity::class.java)
                 .putExtra(HistoryActivity.EXTRA_SENSOR_KEY, key)
                 .putExtra(HistoryActivity.EXTRA_SENSOR_LABEL, label)
+                .putExtra(HistoryActivity.EXTRA_SENSOR_NAME, savedName ?: "")
         )
     }
 
@@ -206,11 +212,14 @@ class MainActivity : AppCompatActivity() {
         AlertDialog.Builder(this)
             .setTitle("גרסה ותאריך עדכון")
             .setMessage("גרסה: ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})\nתאריך בנייה: ${BuildConfig.BUILD_DATE}")
-            .setPositiveButton("סגור", null)
+            .setPositiveButton("חזרה למסך הראשי", null)
             .show()
     }
 
-    /** Shows the saved name (if any) for the currently connected sensor alongside its technical ID. */
+    /**
+     * Once a name is saved, the main screen shows only the name; the technical details
+     * (VID/PID/ID) are shown only if no name was saved yet, and always in the sensor settings dialog.
+     */
     private fun refreshSensorIdDisplay() {
         val key = currentDeviceKey
         if (key == null) {
@@ -219,7 +228,7 @@ class MainActivity : AppCompatActivity() {
         }
         val savedName = prefs.getString(key, null)
         tvSensorId.text = if (!savedName.isNullOrBlank()) {
-            "שם החיישן: $savedName  ·  $currentDeviceDisplayInfo"
+            "שם החיישן: $savedName"
         } else {
             currentDeviceDisplayInfo
         }
