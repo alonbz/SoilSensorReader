@@ -16,8 +16,8 @@ android {
         applicationId = "com.agsense.soilsensor7in1"
         minSdk = 26
         targetSdk = 34
-        versionCode = 18
-        versionName = "1.8.1"
+        versionCode = 19
+        versionName = "1.8.2"
 
         buildConfigField("String", "BUILD_DATE", "\"$buildTimestamp\"")
     }
