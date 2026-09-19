@@ -9,15 +9,15 @@ plugins {
 val buildTimestamp: String = SimpleDateFormat("dd/MM/yyyy HH:mm").format(Date())
 
 android {
-    namespace = "com.agsense.soilsensor7in1"
+    namespace = "com.agsense.soilsensor"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.agsense.soilsensor7in1"
+        applicationId = "com.agsense.soilsensor"
         minSdk = 26
         targetSdk = 34
-        versionCode = 22
-        versionName = "1.8.5"
+        versionCode = 23
+        versionName = "1.8.6"
 
         buildConfigField("String", "BUILD_DATE", "\"$buildTimestamp\"")
     }
