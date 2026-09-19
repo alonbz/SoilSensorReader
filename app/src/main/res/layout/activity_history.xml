@@ -10,12 +10,6 @@
         android:orientation="vertical"
         android:padding="14dp">
 
-        <Button
-            android:id="@+id/btnBackHome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="⬅ חזרה למסך הראשי" />
-
         <TextView
             android:id="@+id/tvHistoryTitle"
             android:layout_width="match_parent"
@@ -98,32 +92,6 @@
             android:text=""
             android:textSize="13sp"
             android:textColor="#888888" />
-
-        <!-- Export -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnExportExcel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="4dp"
-                android:textSize="13sp"
-                android:text="📥 הורד כקובץ Excel" />
-
-            <Button
-                android:id="@+id/btnShareExcel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="4dp"
-                android:textSize="13sp"
-                android:text="📤 ייצוא / שיתוף" />
-        </LinearLayout>
 
         <!-- Combined chart for all metrics -->
         <com.github.mikephil.charting.charts.LineChart
