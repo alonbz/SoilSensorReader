@@ -125,6 +125,16 @@
                 android:text="📤 ייצוא / שיתוף" />
         </LinearLayout>
 
+        <Button
+            android:id="@+id/btnClearHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="13sp"
+            android:textColor="#D32F2F"
+            android:backgroundTint="#FFEBEE"
+            android:text="🗑 מחיקת כל ההיסטוריה של החיישן הזה" />
+
         <!-- Combined chart for all metrics -->
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chartHistory"
