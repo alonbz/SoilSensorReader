@@ -79,6 +79,7 @@ class HistoryActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnBackHome).setOnClickListener { finish() }
         findViewById<Button>(R.id.btnExportExcel).setOnClickListener { exportExcel(share = false) }
         findViewById<Button>(R.id.btnShareExcel).setOnClickListener { exportExcel(share = true) }
+        findViewById<Button>(R.id.btnClearHistory).setOnClickListener { confirmClearHistory() }
 
         setupChartAppearance()
         loadHistory()
@@ -169,6 +170,24 @@ class HistoryActivity : AppCompatActivity() {
         } catch (e: Exception) {
             Toast.makeText(this, "שגיאה בייצוא: ${e.message}", Toast.LENGTH_LONG).show()
         }
+    }
+
+    /** Asks for confirmation, then permanently deletes all saved history rows for this sensor. */
+    private fun confirmClearHistory() {
+        if (sensorKey.isEmpty()) {
+            Toast.makeText(this, "לא ידוע לאיזה חיישן שייכת ההיסטוריה הזו", Toast.LENGTH_SHORT).show()
+            return
+        }
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("מחיקת היסטוריה")
+            .setMessage("האם למחוק לצמיתות את כל נתוני ההיסטוריה השמורים של החיישן הזה? לא ניתן לשחזר פעולה זו.")
+            .setPositiveButton("מחק") { _, _ ->
+                val removed = dbHelper.clearReadings(sensorKey)
+                Toast.makeText(this, "נמחקו $removed רשומות", Toast.LENGTH_SHORT).show()
+                loadHistory()
+            }
+            .setNegativeButton("ביטול", null)
+            .show()
     }
 
     private fun saveToDownloads(fileName: String, bytes: ByteArray): String {
