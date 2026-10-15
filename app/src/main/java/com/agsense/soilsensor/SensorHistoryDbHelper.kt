@@ -96,6 +96,16 @@ class SensorHistoryDbHelper(context: Context) :
         }
         return results
     }
+
+    /** Deletes all saved history rows for one sensor. Returns the number of rows removed. */
+    fun clearReadings(sensorKey: String): Int {
+        return writableDatabase.delete(TABLE_READINGS, "sensor_key = ?", arrayOf(sensorKey))
+    }
+
+    /** Deletes all saved history rows for every sensor. Returns the number of rows removed. */
+    fun clearAllReadings(): Int {
+        return writableDatabase.delete(TABLE_READINGS, null, null)
+    }
 }
 
 /** One historical row read back from storage (same shape as SoilSensorReading, plus its saved timestamp). */
